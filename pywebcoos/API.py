@@ -11,7 +11,7 @@ import numpy as np
 import os
 import pandas as pd
 import requests
-import pytz
+import zoneinfo
 
 from . import timezones
 
@@ -330,8 +330,8 @@ class API():
                                      int(local_time[6:8]),
                                      int(local_time[8:10]),
                                      int(local_time[10:12]))
-        dt_local = pytz.timezone(self.tz).localize(dt_local)
+        dt_local = dt_local.replace(tzinfo=zoneinfo.ZoneInfo(self.tz))
         # Convert to UTC and make ISO #
-        dt_utc = dt_local.astimezone(pytz.timezone('UTC'))
+        dt_utc = dt_local.astimezone(datetime.UTC)
         ISO = dt_utc.isoformat()
         return ISO
